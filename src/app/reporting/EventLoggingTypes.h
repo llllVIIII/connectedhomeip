@@ -102,26 +102,27 @@ struct EventSchema
                 PriorityLevel aPriority) :
         mNodeId(aNodeId),
         mEndpointId(aEndpointId), mClusterId(aClusterId), mEventId(aEventId), mPriority(aPriority){};
-    chip::NodeId mNodeId = 0;
+    chip::NodeId mNodeId         = 0;
     chip::EndpointId mEndpointId = 0;
-    chip::ClusterId mClusterId = 0;
-    chip::EventId mEventId = 0;
-    PriorityLevel mPriority = PriorityLevel::Invalid;
+    chip::ClusterId mClusterId   = 0;
+    chip::EventId mEventId       = 0;
+    PriorityLevel mPriority      = PriorityLevel::Invalid;
 };
 
 /**
  * @brief
  *   The union that provides an application set system or UTC timestamp.
  */
-struct Timestamp {
+struct Timestamp
+{
     enum class Type
     {
         kInvalid = 0,
         kSystem,
         kUTC
     };
-    Timestamp(Type aType) : mType(aType) { mValue = 0;};
-    Timestamp(Type aType, uint64_t aValue) : mType(aType), mValue(aValue) {};
+    Timestamp(Type aType) : mType(aType) { mValue = 0; };
+    Timestamp(Type aType, uint64_t aValue) : mType(aType), mValue(aValue){};
     static Timestamp UTC(uint64_t aValue)
     {
         Timestamp timestamp(Type::kUTC, aValue);
@@ -133,7 +134,7 @@ struct Timestamp {
         return timestamp;
     }
 
-    Type mType = Type::kInvalid;
+    Type mType      = Type::kInvalid;
     uint64_t mValue = 0;
 };
 
@@ -168,10 +169,10 @@ struct EventLoadOutContext
     PriorityLevel mPriority                = PriorityLevel::Invalid;
     chip::EventNumber mStartingEventNumber = 0;
     Timestamp mCurrentSystemTime;
-    chip::EventNumber mCurrentEventNumber  = 0;
+    chip::EventNumber mCurrentEventNumber = 0;
     Timestamp mCurrentUTCTime;
-    bool mFirstUtc                         = true;
-    bool mFirst                            = true;
+    bool mFirstUtc = true;
+    bool mFirst    = true;
 };
 
 using InternalLoggingBufferHandler = CHIP_ERROR(void * inAppState, chip::System::PacketBuffer * apBuffer);

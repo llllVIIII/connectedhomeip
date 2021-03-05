@@ -608,7 +608,7 @@ CHIP_ERROR LoggingManagement::LogEventPrivate(EventLoggingDelegate * apDelegate,
     EventLoadOutContext ctxt = EventLoadOutContext(writer, apOptions->mpEventSchema->mPriority,
                                                    GetPriorityBuffer(apOptions->mpEventSchema->mPriority)->mLastEventNumber);
     Timestamp timestamp(Timestamp::Type::kSystem, System::Timer::GetCurrentEpoch());
-    EventOptions opts        = EventOptions(timestamp);
+    EventOptions opts = EventOptions(timestamp);
 
     // check whether the entry is to be logged or discarded silently
     VerifyOrExit(apOptions->mpEventSchema->mPriority <= GetCurrentPriority(apOptions->mpEventSchema->mClusterId), /* no-op */);
@@ -789,7 +789,7 @@ CHIP_ERROR LoggingManagement::CopyEventsSince(const TLVReader & aReader, size_t 
         VerifyOrExit((err == CHIP_NO_ERROR) || (err == CHIP_END_OF_TLV), loadOutContext->mWriter = checkpoint);
 
         loadOutContext->mCurrentSystemTime.mValue = 0;
-        loadOutContext->mFirst       = false;
+        loadOutContext->mFirst                    = false;
         loadOutContext->mCurrentEventNumber++;
     }
 
@@ -813,7 +813,7 @@ CHIP_ERROR LoggingManagement::FetchEventsSince(TLVWriter & aWriter, PriorityLeve
         buf = buf->mpNext;
     }
 
-    context.mCurrentSystemTime        = buf->mFirstEventSystemTimestamp;
+    context.mCurrentSystemTime  = buf->mFirstEventSystemTimestamp;
     context.mCurrentEventNumber = buf->mFirstEventNumber;
     err                         = GetEventReader(reader, aPriority, &bufWrapper);
     SuccessOrExit(err);
@@ -983,7 +983,8 @@ CircularEventBuffer::CircularEventBuffer(uint8_t * apBuffer, uint32_t aBufferLen
                                          CircularEventBuffer * apNext) :
     CHIPCircularTLVBuffer(apBuffer, aBufferLength),
     mpPrev(apPrev), mpNext(apNext), mPriority(PriorityLevel::First), mFirstEventNumber(1), mLastEventNumber(0),
-    mFirstEventSystemTimestamp(Timestamp::Type::kSystem, 0), mLastEventSystemTimestamp(Timestamp::Type::kSystem, 0), mpEventNumberCounter(nullptr)
+    mFirstEventSystemTimestamp(Timestamp::Type::kSystem, 0), mLastEventSystemTimestamp(Timestamp::Type::kSystem, 0),
+    mpEventNumberCounter(nullptr)
 {}
 
 bool CircularEventBuffer::IsFinalDestinationForPriority(PriorityLevel aPriority) const
